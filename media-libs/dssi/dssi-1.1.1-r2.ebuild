@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools
+inherit autotools flag-o-matic
 
 DESCRIPTION="Plugin API for software instruments with user interfaces"
 HOMEPAGE="http://dssi.sourceforge.net/"
@@ -28,6 +28,8 @@ DEPEND="${RDEPEND}
 
 DOCS=( README doc/TODO doc/{midi-controllers,RFC,why-use}.txt )
 
+PATCHES=( "${FILESDIR}"/${P}-qt5.patch )
+
 src_prepare() {
 	default
 
@@ -43,6 +45,8 @@ src_prepare() {
 }
 
 src_configure() {
+	append-cxxflags -std=c++11 -fPIC
+
 	econf \
 		--disable-dependency-tracking
 }

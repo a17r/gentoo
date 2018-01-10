@@ -1,0 +1,75 @@
+--- a/configure.ac	2011-10-06 10:00:58.000000000 +0200
++++ b/configure.ac	2018-01-10 01:02:33.806836652 +0100
+@@ -49,10 +49,10 @@
+ 
+ dnl Check for Qt
+ with_qt=no
+-PKG_CHECK_MODULES(QT, [QtCore >= 4.0.1 QtGui >= 4.0.1],
++PKG_CHECK_MODULES(QT, [Qt5Core >= 5.0.0 Qt5Gui >= 5.0.0 Qt5Widgets >= 5.0.0],
+     [with_qt=yes
+-     QT_MOC=`$PKG_CONFIG --variable=moc_location QtCore`],
+-    AC_MSG_NOTICE([pkg-config could not find Qt >= 4.0.1]))
++     QT_MOC="$(eval $PKG_CONFIG --variable=host_bins Qt5Core)/moc"],
++    AC_MSG_NOTICE([pkg-config could not find Qt >= 5.0.0]))
+ if test "x${with_qt}" = xno ; then
+   case "${host_os}" in
+   darwin*)
+@@ -60,8 +60,9 @@
+     AC_LANG_SAVE
+     AC_LANG_CPLUSPLUS
+     dssi_save_cppflags="$CPPFLAGS"
+-    CPPFLAGS="$CPPFLAGS -I/Library/Frameworks/QtCore.framework/Headers"
+-    CPPFLAGS="$CPPFLAGS -I/Library/Frameworks/QtGui.framework/Headers"
++    CPPFLAGS="$CPPFLAGS -I/Library/Frameworks/Qt5Core.framework/Headers"
++    CPPFLAGS="$CPPFLAGS -I/Library/Frameworks/Qt5Gui.framework/Headers"
++    CPPFLAGS="$CPPFLAGS -I/Library/Frameworks/Qt5Widgets.framework/Headers"
+     AC_CHECK_HEADERS(QApplication, [with_qt=yes])
+     CPPFLAGS="$dssi_save_cppflags"
+     AC_LANG_RESTORE
+@@ -71,9 +72,10 @@
+         echo moc not found
+         with_qt=no
+       else
+-        QT_CFLAGS="-I/Library/Frameworks/QtCore.framework/Headers"
+-        QT_CFLAGS="$QT_CFLAGS -I/Library/Frameworks/QtGui.framework/Headers"
+-        QT_LIBS="-Xlinker -framework -Xlinker QtCore -Xlinker -framework -Xlinker QtGui"
++        QT_CFLAGS="-I/Library/Frameworks/Qt5Core.framework/Headers"
++        QT_CFLAGS="$QT_CFLAGS -I/Library/Frameworks/Qt5Gui.framework/Headers"
++        QT_CFLAGS="$QT_CFLAGS -I/Library/Frameworks/Qt5Widgets.framework/Headers"
++        QT_LIBS="-Xlinker -framework -Xlinker Qt5Core -Xlinker -framework -Xlinker Qt5Gui -Xlinker -framework -Xlinker Qt5Widgets"
+       fi
+     fi
+     ;;
+--- a/examples/less_trivial_synth_qt_gui.cpp	2010-06-01 23:52:35.000000000 +0200
++++ b/examples/less_trivial_synth_qt_gui.cpp	2018-01-10 01:19:11.731479943 +0100
+@@ -432,8 +432,9 @@
+     cerr << "less_trivial_synth_qt_gui starting..." << endl;
+ 
+     QApplication application(argc, argv);
++	int s_argc = application.arguments().size();
+ 
+-    if (application.argc() != 5) {
++    if (s_argc != 5) {
+ 	cerr << "usage: "
+ 	     << application.argv()[0] 
+ 	     << " <osc url>"
+@@ -448,6 +449,19 @@
+     XSetErrorHandler(handle_x11_error);
+ #endif
+ 
++	s_argv = new char*[s_argc + 1];
++
++	for (int i = 0; i < s_argc; i++) {
++		// current arg
++		std::string arg =
++		application->arguments().at(i).toStdString();
++		// copy arg to char** structure
++		s_argv[i] = new char[strlen(arg.c_str()) + 1];
++		memcpy(s_argv[i], arg.c_str(),
++		strlen(arg.c_str()) + 1); // +1 for '\0'
++	}
++	s_argv[s_argc] = ((char)NULL);
++
+     char *url = application.argv()[1];
+ 
+     char *host = lo_url_get_hostname(url);
