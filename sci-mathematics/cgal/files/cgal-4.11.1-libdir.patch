@@ -1,0 +1,33 @@
+--- a/cmake/modules/FindGMP.cmake	2018-02-24 21:00:36.000000000 +0100
++++ b/cmake/modules/FindGMP.cmake	2018-06-17 16:44:13.524417274 +0200
+@@ -41,7 +41,7 @@
+   endif()
+ 
+   find_library(GMP_LIBRARIES NAMES gmp libgmp-10 mpir
+-    HINTS ENV GMP_LIB_DIR
++    HINTS /usr/lib64
+           ENV GMP_DIR
+           ${CGAL_INSTALLATION_PACKAGE_DIR}/auxiliary/gmp/lib
+     PATH_SUFFIXES lib
+--- a/cmake/modules/FindGMPXX.cmake	2018-02-24 21:00:36.000000000 +0100
++++ b/cmake/modules/FindGMPXX.cmake	2018-06-17 16:44:13.529417146 +0200
+@@ -26,7 +26,7 @@
+            )
+ 
+   find_library(GMPXX_LIBRARIES NAMES gmpxx
+-               HINTS ENV GMPXX_LIB_DIR
++               HINTS /usr/lib64
+                      ENV GMPXX_DIR
+                      ${GMP_LIBRARIES_DIR_SEARCH}
+                PATH_SUFFIXES lib
+--- a/cmake/modules/FindMPFR.cmake	2018-02-24 21:00:36.000000000 +0100
++++ b/cmake/modules/FindMPFR.cmake	2018-06-17 16:44:13.533417044 +0200
+@@ -40,7 +40,7 @@
+   endif()
+ 
+   find_library(MPFR_LIBRARIES NAMES mpfr libmpfr-4 libmpfr-1
+-    HINTS ENV MPFR_LIB_DIR
++    HINTS /usr/lib64
+           ENV MPFR_DIR
+           ${CGAL_INSTALLATION_PACKAGE_DIR}/auxiliary/gmp/lib
+     PATH_SUFFIXES lib
