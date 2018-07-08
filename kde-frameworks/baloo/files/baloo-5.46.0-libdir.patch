@@ -1,28 +1,32 @@
-From db185ad3a1ad88cb35ea782bd3ae9b6b7f222a3b Mon Sep 17 00:00:00 2001
+From 3c8f47049c07ec3cfb049b12687d3dc14b1217e0 Mon Sep 17 00:00:00 2001
 From: Andreas Sturmlechner <andreas.sturmlechner@gmail.com>
 Date: Sun, 17 Jun 2018 11:54:55 +0200
-Subject: [PATCH] Use LIB_SUFFIX for lmdb libdir rather than hardcode lib
+Subject: [PATCH] Drop LMDB_DIR hints from lmdb library search
 
+Subscribers: kde-frameworks-devel, #baloo
+
+Tags: #frameworks, #baloo
+
+Differential Revision: https://phabricator.kde.org/D13585
 ---
- cmake/FindLMDB.cmake | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ cmake/FindLMDB.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/cmake/FindLMDB.cmake b/cmake/FindLMDB.cmake
-index 17dc23f5..146ba9fd 100644
+index 17dc23f5..b78520f1 100644
 --- a/cmake/FindLMDB.cmake
 +++ b/cmake/FindLMDB.cmake
-@@ -17,8 +17,10 @@ if (LMDB_INCLUDE_DIRS AND LMDB_LIBRARIES)
+@@ -17,8 +17,8 @@ if (LMDB_INCLUDE_DIRS AND LMDB_LIBRARIES)
    set(LMDB_FIND_QUIETLY TRUE)
  endif (LMDB_INCLUDE_DIRS AND LMDB_LIBRARIES)
  
-+set(LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name (32/64)" )
-+
- find_path(LMDB_INCLUDE_DIRS NAMES "lmdb.h" HINTS "$ENV{LMDB_DIR}/include")
+-find_path(LMDB_INCLUDE_DIRS NAMES "lmdb.h" HINTS "$ENV{LMDB_DIR}/include")
 -find_library(LMDB_LIBRARIES NAMES lmdb HINTS $ENV{LMDB_DIR}/lib )
-+find_library(LMDB_LIBRARIES NAMES lmdb HINTS "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" "$ENV{LMDB_DIR}/lib${LIB_SUFFIX}")
++find_path(LMDB_INCLUDE_DIRS NAMES "lmdb.h")
++find_library(LMDB_LIBRARIES NAMES lmdb NO_PACKAGE_ROOT_PATH)
  
  include(FindPackageHandleStandardArgs)
  FIND_PACKAGE_HANDLE_STANDARD_ARGS(LMDB DEFAULT_MSG LMDB_INCLUDE_DIRS LMDB_LIBRARIES)
 -- 
-2.17.1
+2.18.0
 

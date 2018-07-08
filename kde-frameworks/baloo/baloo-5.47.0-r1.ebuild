@@ -36,9 +36,5 @@ RESTRICT+=" test" # bug 624250
 PATCHES=( "${FILESDIR}/${PN}-5.46.0-libdir.patch" )
 
 src_configure() {
-	local libdir=$(get_libdir)
-	local mycmakeargs=(
-		-DLIB_SUFFIX=${libdir/lib/}
-	)
-	kde5_src_configure
+	CMAKE_LIBRARY_PATH="/usr/${get_libdir} ${CMAKE_LIBRARY_PATH}" kde5_src_configure
 }
