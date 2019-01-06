@@ -12,7 +12,7 @@ if [[ ${PV} == *999* ]]; then
 	GIT_SCM=git-r3
 	SRC_URI=""
 else
-	GITLAB_ID="e8c77b143e84c97fca354579575d18e9"
+	GITLAB_ID="08dad6b2a68fd618ba8c87c627393d06"
 	SRC_URI="https://git.weboob.org/${PN}/${PN}/uploads/${GITLAB_ID}/${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
@@ -26,7 +26,7 @@ HOMEPAGE="http://weboob.org/"
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="+deprecated fast-libs +secure-updates X"
+IUSE="fast-libs +secure-updates X"
 
 COMMON_DEPEND="
 	X? ( dev-python/PyQt5[multimedia,${PYTHON_USEDEP}] )
@@ -45,7 +45,6 @@ RDEPEND="${COMMON_DEPEND}
 	dev-python/termcolor[${PYTHON_USEDEP}]
 	dev-python/unidecode[${PYTHON_USEDEP}]
 	virtual/python-futures[${PYTHON_USEDEP}]
-	deprecated? ( dev-python/mechanize[${PYTHON_USEDEP}] )
 	fast-libs? (
 		dev-python/pyyaml[libyaml,${PYTHON_USEDEP}]
 		dev-python/simplejson[${PYTHON_USEDEP}]
