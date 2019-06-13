@@ -1,0 +1,122 @@
+diff -ur a/engine/main/CMakeLists.txt b/engine/main/CMakeLists.txt
+--- a/engine/main/CMakeLists.txt	2014-10-01 00:28:19.000000000 +0200
++++ b/engine/main/CMakeLists.txt	2015-01-05 15:14:43.850783973 +0100
+@@ -188,8 +188,8 @@
+     ${engine_ser_exe_EPlot_ser}
+     engine_ser 
+     visit_verdict
+-    vtkjpeg
+-    vtkpng
++    jpeg
++    png
+     ${VTKZLIB_LIB}
+     ${VTK_FREETYPE_LIBRARIES}
+     ${ALL_THIRDPARTY_IO_LIB}
+@@ -273,8 +273,8 @@
+         ${engine_par_exe_EPlot_par}
+         engine_par
+         visit_verdict
+-        vtkjpeg
+-        vtkpng
++        jpeg
++        png
+         ${VTKZLIB_LIB}
+         ${VTK_FREETYPE_LIBRARIES}
+         ${ALL_THIRDPARTY_IO_LIB}
+--- a/mdserver/main/CMakeLists.txt	2014-08-11 23:45:16.000000000 +0200
++++ b/mdserver/main/CMakeLists.txt	2015-01-05 15:15:41.810784062 +0100
+@@ -119,10 +119,10 @@
+     visit_verdict 
+     vtkCommonCore
+     vtkIOCore 
+-    vtktiff
++    tiff
+     ${VTKZLIB_LIB}
+-    vtkpng
+-    vtkjpeg
++    png
++    jpeg
+     ${ZLIB_LIB} 
+     ${CMAKE_THREAD_LIBS} 
+     ${DL_LIB}
+--- a/tools/data/convert/CMakeLists.txt	2014-08-11 23:46:08.000000000 +0200
++++ b/tools/data/convert/CMakeLists.txt	2015-01-05 15:14:28.880783951 +0100
+@@ -105,8 +105,8 @@
+ )
+ 
+ SET(VTK_EXTRA_LIBS
+-vtkjpeg
+-vtkpng
++jpeg
++png
+ ${VTKZLIB_LIB}
+ ${VTK_FREETYPE_LIBRARIES}
+ vtkftgl
+--- a/tools/examples/dataserver/CMakeLists.txt	2014-08-11 23:46:12.000000000 +0200
++++ b/tools/examples/dataserver/CMakeLists.txt	2015-01-05 15:13:02.000783818 +0100
+@@ -70,9 +70,9 @@
+ )
+ 
+ SET(VTK_EXTRA_LIBS
+-vtktiff
+-vtkjpeg
+-vtkpng
++tiff
++jpeg
++png
+ ${VTKZLIB_LIB}
+ ${VTK_FREETYPE_LIBRARIES}
+ vtkftgl
+--- a/tools/examples/mcurvit/CMakeLists.txt	2014-08-11 23:46:11.000000000 +0200
++++ b/tools/examples/mcurvit/CMakeLists.txt	2015-01-05 15:16:02.400784093 +0100
+@@ -104,9 +104,9 @@
+ )
+ 
+ SET(VTK_EXTRA_LIBS
+-vtktiff
+-vtkjpeg
+-vtkpng
++tiff
++jpeg
++png
+ ${VTKZLIB_LIB}
+ ${VTK_FREETYPE_LIBRARIES}
+ vtkftgl
+--- a/tools/dev/protocol/CMakeLists.txt	2014-08-11 23:46:14.000000000 +0200
++++ b/tools/dev/protocol/CMakeLists.txt	2015-01-05 15:12:46.480783795 +0100
+@@ -76,9 +76,9 @@
+ )
+ 
+ SET(VTK_EXTRA_LIBS
+-vtktiff
+-vtkjpeg
+-vtkpng
++tiff
++jpeg
++png
+ ${VTKZLIB_LIB}
+ ${VTK_FREETYPE_LIBRARIES}
+ vtkftgl
+--- a/viewer/main/CMakeLists.txt	2014-08-11 23:46:26.000000000 +0200
++++ b/viewer/main/CMakeLists.txt	2015-01-05 15:12:11.380783741 +0100
+@@ -279,8 +279,8 @@
+     ${viewer_exe_IPlot}
+     ${viewer_exe_VPlot}
+     viewer
+-    vtkpng
+-    vtkjpeg
++    png
++    jpeg
+     ${VTKZLIB_LIB}
+     ${VTK_FREETYPE_LIBRARIES}
+     vtkftgl
+--- a/visit_vtk/full/CMakeLists.txt	2014-08-11 23:45:14.000000000 +0200
++++ b/visit_vtk/full/CMakeLists.txt	2015-01-05 15:11:17.680783659 +0100
+@@ -125,6 +125,6 @@
+ ADD_LIBRARY(visit_vtk ${VISIT_VTK_SOURCES})
+ 
+-TARGET_LINK_LIBRARIES(visit_vtk lightweight_visit_vtk vtkFiltersExtraction vtkFiltersFlowPaths vtkFiltersSources vtkImagingHybrid vtkIOImage vtktiff ${OPENEXR_LIB})
++TARGET_LINK_LIBRARIES(visit_vtk lightweight_visit_vtk vtkFiltersExtraction vtkFiltersFlowPaths vtkFiltersSources vtkImagingHybrid vtkIOImage ${OPENEXR_LIB})
+ 
+ 
+ VISIT_INSTALL_TARGETS(visit_vtk)

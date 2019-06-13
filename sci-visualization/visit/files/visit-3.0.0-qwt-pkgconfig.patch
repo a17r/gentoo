@@ -1,0 +1,109 @@
+From e13a5c0853d9df45bf050a92f6bb785583a048bb Mon Sep 17 00:00:00 2001
+From: Andreas Sturmlechner <asturm@gentoo.org>
+Date: Wed, 12 Jun 2019 21:24:56 +0200
+Subject: [PATCH] Use pkgconfig to find Qwt
+
+---
+ CMakeLists.txt                         | 3 ++-
+ gui/CMakeLists.txt                     | 4 ++--
+ gui/main/CMakeLists.txt                | 2 +-
+ visitpy/pyui/common/CMakeLists.txt     | 4 ++--
+ visitpy/pyui/pyside/gui/CMakeLists.txt | 4 ++--
+ 5 files changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ca12528..583fab8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1245,7 +1245,8 @@ ENDIF(VISIT_PYTHON_FILTERS AND VISIT_DBIO_ONLY)
+ # Configure Qt and Qwt support.
+ IF(NOT VISIT_DBIO_ONLY AND NOT VISIT_ENGINE_ONLY AND NOT VISIT_SERVER_COMPONENTS_ONLY)
+     INCLUDE(${VISIT_SOURCE_DIR}/CMake/FindVisItQt.cmake)
+-    INCLUDE(${VISIT_SOURCE_DIR}/CMake/FindQwt.cmake)
++    include(FindPkgConfig)
++    pkg_check_module(QWT REQUIRED Qt5Qwt-6.1)
+ ENDIF(NOT VISIT_DBIO_ONLY AND NOT VISIT_ENGINE_ONLY AND NOT VISIT_SERVER_COMPONENTS_ONLY)
+ 
+ # Configure PySide Support
+diff --git a/gui/CMakeLists.txt b/gui/CMakeLists.txt
+index 5aafef7..012dfb3 100644
+--- a/gui/CMakeLists.txt
++++ b/gui/CMakeLists.txt
+@@ -388,7 +388,7 @@ ${VISIT_SOURCE_DIR}/mdserver/rpc
+ ${VISIT_SOURCE_DIR}/viewer/proxy
+ ${VISIT_SOURCE_DIR}/viewer/rpc
+ ${VISIT_SOURCE_DIR}/winutil
+-${QWT_INCLUDE_DIR}
++${QWT_INCLUDE_DIRS}
+ )
+ LINK_DIRECTORIES(${LIBRARY_OUTPUT_DIRECTORY} )
+ 
+@@ -428,7 +428,7 @@ mdserverproxy
+ avtdbatts
+ winutil
+ ${GUI_QT_LIBS}
+-${QWT_LIBRARY}
++${QWT_LIBRARIES}
+ )
+ 
+ IF(APPLE)
+diff --git a/gui/main/CMakeLists.txt b/gui/main/CMakeLists.txt
+index fad1ee0..6407a35 100644
+--- a/gui/main/CMakeLists.txt
++++ b/gui/main/CMakeLists.txt
+@@ -64,7 +64,7 @@ ${VISIT_SOURCE_DIR}/viewer/rpc
+ ${VISIT_SOURCE_DIR}/winutil
+ )
+ 
+-LINK_DIRECTORIES(${LIBRARY_OUTPUT_DIRECTORY} ${QWT_LIBRARY_DIR})
++LINK_DIRECTORIES(${LIBRARY_OUTPUT_DIRECTORY} ${QWT_LIBRARY_DIRS})
+ 
+ IF(VISIT_STATIC)
+     # If the gui is static then we need some static symbol lookup functions
+diff --git a/visitpy/pyui/common/CMakeLists.txt b/visitpy/pyui/common/CMakeLists.txt
+index e71fde1..b736f86 100644
+--- a/visitpy/pyui/common/CMakeLists.txt
++++ b/visitpy/pyui/common/CMakeLists.txt
+@@ -69,7 +69,7 @@ set(guiwrapper_include_paths
+ 
+ include_directories(${guiwrapper_include_paths})
+ 
+-link_directories(${LIBRARY_OUTPUT_DIRECTORY} ${QWT_LIBRARY_DIR})
++link_directories(${LIBRARY_OUTPUT_DIRECTORY} ${QWT_LIBRARY_DIRS})
+ set(guiwrapper_link_libs 
+     gui
+     viewer
+@@ -80,7 +80,7 @@ ${QT_QTGUI_LIBRARY}
+ ${QT_QTNETWORK_LIBRARY}
+ ${QT_QTXML_LIBRARY}
+ ${QT_QTCORE_LIBRARY}
+-${QWT_LIBRARY}
++${QWT_LIBRARIES}
+     )
+ 
+ set(guiwrapper_sources ${CMAKE_CURRENT_SOURCE_DIR}/guiwrapper.C)
+diff --git a/visitpy/pyui/pyside/gui/CMakeLists.txt b/visitpy/pyui/pyside/gui/CMakeLists.txt
+index 1c6ccb5..e00f372 100644
+--- a/visitpy/pyui/pyside/gui/CMakeLists.txt
++++ b/visitpy/pyui/pyside/gui/CMakeLists.txt
+@@ -86,7 +86,7 @@ set(pyside_gui_link_libs
+     #${SHIBOKEN_LIBRARY}
+     #${PYSIDE_LIBRARY}
+     #${QT_QTCORE_LIBRARY}
+-    ${QWT_LIBRARY}
++    ${QWT_LIBRARIES}
+     )
+ 
+ set(pyside_gui_sources ${CMAKE_CURRENT_SOURCE_DIR}/pysidegui.C) 
+@@ -95,7 +95,7 @@ ${CMAKE_CURRENT_BINARY_DIR}/pyside_gui/pysidegui_wrapper.cpp
+ ${CMAKE_CURRENT_BINARY_DIR}/pyside_gui/guiwrapper_wrapper.cpp
+ ${CMAKE_CURRENT_BINARY_DIR}/pyside_gui/pyside_gui_module_wrapper.cpp)
+ 
+-LINK_DIRECTORIES(${QWT_LIBRARY_DIR})
++LINK_DIRECTORIES(${QWT_LIBRARY_DIRS})
+ 
+ #
+ # For dev build, we may need to link to mesa on Linux.
+-- 
+2.22.0
+
