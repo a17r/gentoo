@@ -1,0 +1,64 @@
+--- a/CMakeLists.txt	2019-09-29 21:23:31.206371391 +0200
++++ b/CMakeLists.txt	2019-09-29 21:23:31.210371435 +0200
+@@ -66,7 +66,9 @@
+ add_subdirectory(applications)
+ add_subdirectory(views)
+ add_subdirectory(accounts)
++if(BUILD_TESTING)
+ add_subdirectory(tests)
++endif()
+ if (${ENABLE_EXTENSIONS})
+     add_subdirectory(extensions)
+ endif()
+--- a/framework/CMakeLists.txt	2019-09-29 21:23:31.215371488 +0200
++++ b/framework/CMakeLists.txt	2019-09-29 21:23:31.219371531 +0200
+@@ -4,4 +4,6 @@
+ install(FILES qmldir DESTINATION ${FRAMEWORK_INSTALL_DIR})
+ 
+ add_subdirectory(src)
++if(BUILD_TESTING)
+ add_subdirectory(qml/tests)
++endif()
+--- a/framework/src/CMakeLists.txt	2019-09-29 21:23:31.223371574 +0200
++++ b/framework/src/CMakeLists.txt	2019-09-29 21:23:31.237371724 +0200
+@@ -102,10 +102,16 @@
+ 
+ set(BUILD_TESTING ON)
+ 
++if(BUILD_TESTING)
+ add_subdirectory(tests)
++endif()
+ add_subdirectory(domain/mime)
++if(BUILD_TESTING)
+ add_subdirectory(domain/mime/tests)
++endif()
+ add_subdirectory(domain/mime/mimetreeparser)
++if(BUILD_TESTING)
+ add_subdirectory(domain/settings/tests)
++endif()
+ 
+ feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+--- a/framework/src/domain/mime/mimetreeparser/CMakeLists.txt	2019-09-29 21:23:31.242371778 +0200
++++ b/framework/src/domain/mime/mimetreeparser/CMakeLists.txt	2019-09-29 21:23:31.246371821 +0200
+@@ -49,5 +49,9 @@
+     Gpgme::Gpgme
+ )
+ 
++if(BUILD_TESTING)
+ add_subdirectory(autotests)
++endif()
++if(BUILD_TESTING)
+ add_subdirectory(tests)
++endif()
+--- a/components/CMakeLists.txt	2019-09-29 21:23:31.252371885 +0200
++++ b/components/CMakeLists.txt	2019-09-29 21:23:31.265372025 +0200
+@@ -8,7 +8,9 @@
+ endmacro(install_qml_component)
+ 
+ install_qml_component(kube)
++if(BUILD_TESTING)
+ add_subdirectory(kube/tests)
++endif()
+ install_qml_component(accounts)
+ 
+ 
