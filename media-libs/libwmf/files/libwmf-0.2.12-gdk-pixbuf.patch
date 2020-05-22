@@ -1,0 +1,22 @@
+--- a/configure.ac	2020-05-22 10:29:42.189425637 +0200
++++ b/configure.ac	2020-05-22 10:50:25.384015469 +0200
+@@ -715,8 +715,7 @@
+ 
+ if test $LIBWMF_BUILDSTYLE != lite; then
+ 	PKG_CHECK_MODULES(GDK_PIXBUF,gdk-pixbuf-2.0 >= 2.1.2,[
+-		GDK_PIXBUF_VERSION=`$PKG_CONFIG --variable=gdk_pixbuf_binary_version gdk-pixbuf-2.0`
+-		GDK_PIXBUF_DIR="gdk-pixbuf-2.0/$GDK_PIXBUF_VERSION/loaders"
++		GDK_PIXBUF_DIR=`$PKG_CONFIG --variable=gdk_pixbuf_moduledir gdk-pixbuf-2.0`
+ 		wmf_gdk_pixbuf=yes
+ 	],[	wmf_gdk_pixbuf=no
+ 	])
+--- a/src/Makefile.am	2011-07-01 22:37:57.000000000 +0200
++++ b/src/Makefile.am	2020-05-22 10:50:25.384015469 +0200
+@@ -63,7 +63,7 @@
+ 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
+ 	-release $(LT_RELEASE) -export-dynamic
+ 
+-loaderdir = $(libdir)/$(GDK_PIXBUF_DIR)
++loaderdir = $(GDK_PIXBUF_DIR)
+ 
+ loader_LTLIBRARIES = $(GDK_PIXBUF_PLUGIN)
