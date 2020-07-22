@@ -157,7 +157,6 @@ x265_variant_src_configure() {
 
 multilib_src_configure() {
 	local myabicmakeargs=(
-		-DENABLE_TESTS=$(usex test ON OFF)
 		$(multilib_is_native_abi || echo "-DENABLE_CLI=OFF")
 		-DENABLE_PIC=ON
 		-DENABLE_LIBNUMA=$(usex numa ON OFF)
@@ -176,6 +175,8 @@ multilib_src_configure() {
 	elif [[ ${ABI} = arm ]] ; then
 		myabicmakeargs+=( -DENABLE_ASSEMBLY=$(usex pic OFF $(usex cpu_flags_arm_neon ON OFF)) )
 		use cpu_flags_arm_neon && use pic && ewarn "PIC has been requested but arm neon asm is not PIC-safe, disabling it."
+	else
+		myabicmakeargs+=( -DENABLE_TESTS=$(usex test) )
 	fi
 
 	local MULTIBUILD_VARIANTS=( $(x265_get_variants) )
