@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="project">
+		<email>qt@gentoo.org</email>
+		<name>Gentoo Qt Project</name>
+	</maintainer>
+	<upstream>
+		<maintainer status="active">
+			<email>phil@riverbankcomputing.com</email>
+			<name>Phil Thompson</name>
+		</maintainer>
+		<doc>https://www.riverbankcomputing.com/static/Docs/PyQt5/</doc>
+		<bugs-to>mailto:pyqt@riverbankcomputing.com</bugs-to>
+		<remote-id type="pypi">PyQtChart</remote-id>
+	</upstream>
+</pkgmetadata>
