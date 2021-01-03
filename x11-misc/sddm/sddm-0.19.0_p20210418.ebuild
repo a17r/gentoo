@@ -14,9 +14,9 @@ S="${WORKDIR}/${PN}-${COMMIT}"
 LICENSE="GPL-2+ MIT CC-BY-3.0 CC-BY-SA-3.0 public-domain"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86"
-IUSE="+elogind openrc-init +pam systemd test"
+IUSE="+elogind openrc-init systemd test"
 
-REQUIRED_USE="?? ( elogind systemd )"
+REQUIRED_USE="^^ ( elogind systemd )"
 RESTRICT="!test? ( test )"
 
 COMMON_DEPEND="
@@ -25,11 +25,11 @@ COMMON_DEPEND="
 	dev-qt/qtdeclarative:5
 	dev-qt/qtgui:5
 	dev-qt/qtnetwork:5
+	sys-libs/pam
 	x11-base/xorg-server
 	x11-libs/libXau
 	x11-libs/libxcb[xkb]
 	elogind? ( sys-auth/elogind )
-	pam? ( sys-libs/pam )
 	systemd? ( sys-apps/systemd:= )
 	!systemd? ( sys-power/upower )
 "
@@ -74,17 +74,12 @@ pkg_setup() {
 src_prepare() {
 	touch "${S}"/01gentoo.conf || die
 
-	if use elogind || use systemd; then
 cat <<-EOF >> "${S}"/01gentoo.conf
 [General]
 # Halt/Reboot command
 HaltCommand=$(usex elogind "loginctl" "systemctl") poweroff
 RebootCommand=$(usex elogind "loginctl" "systemctl") reboot
 
-EOF
-	fi
-
-cat <<-EOF >> "${S}"/01gentoo.conf
 # Remove qtvirtualkeyboard as InputMethod default
 InputMethod=
 
@@ -111,7 +106,7 @@ src_configure() {
 		-DBUILD_MAN_PAGES=ON
 		-DDBUS_CONFIG_FILENAME="org.freedesktop.sddm.conf"
 		-DINSTALL_PAM_EXAMPLES=OFF
-		-DENABLE_PAM=$(usex pam)
+		-DENABLE_PAM=ON
 		-DNO_SYSTEMD=$(usex !systemd)
 		-DUSE_ELOGIND=$(usex elogind)
 	)
@@ -132,11 +127,9 @@ src_install() {
 		newconfd "${FILESDIR}"/sddm.confd sddm
 	fi
 
-	if use pam; then
-		newpamd "${FILESDIR}"/${PN}.pam ${PN} # bug 728550
-		newpamd services/${PN}-autologin.pam ${PN}-autologin
-		newpamd "${BUILD_DIR}"/services/${PN}-greeter.pam ${PN}-greeter
-	fi
+	newpamd "${FILESDIR}"/${PN}.pam ${PN} # bug 728550
+	newpamd services/${PN}-autologin.pam ${PN}-autologin
+	newpamd "${BUILD_DIR}"/services/${PN}-greeter.pam ${PN}-greeter
 }
 
 pkg_postinst() {
