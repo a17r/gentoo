@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -89,6 +89,8 @@ src_prepare() {
 
 	# fix out of source tests
 	epatch "${FILESDIR}"/${PN}-0.99_beta18-fix-tests.patch
+
+	epatch "${FILESDIR}"/${P}-freeglut-glvnd-configure.patch
 
 	eautoreconf
 
