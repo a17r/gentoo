@@ -1,0 +1,23 @@
+Disable Qt5WebKit
+Don't install trivial doc files
+
+--- a/src/src.pro
++++ b/src/src.pro
+@@ -130,7 +130,7 @@
+ QMAKE_LIBDIR += .
+ INCLUDEPATH += c2b .
+ 
+-qtHaveModule(webkitwidgets){
++false{
+     CONFIG += use_webkit
+ } else {
+ qtHaveModule(webenginewidgets){
+@@ -203,7 +203,7 @@
+ desktop.path = /usr/share/applications
+ icons.files += ../src/icons/cb2bib.png
+ icons.path = /usr/share/pixmaps
+-cb2bibdata.files += ../AUTHORS ../COPYRIGHT ../LICENSE ../CHANGELOG ../data ../c2btools ../testPDFImport
++cb2bibdata.files +=  ../data ../c2btools ../testPDFImport
+ cb2bibdata.path = /usr/share/cb2bib
+ cb2bibdoc.files += ../doc/cb2bib_user_manual.pdf
+ cb2bibdoc.path = /usr/share/cb2bib/doc
