@@ -7,7 +7,7 @@ inherit flag-o-matic libtool multilib-build multilib-minimal toolchain-funcs
 
 DESCRIPTION="High-quality and portable font engine"
 HOMEPAGE="https://www.freetype.org/"
-IUSE="X +adobe-cff brotli bzip2 +cleartype-hinting debug fontforge harfbuzz infinality +png static-libs utils"
+IUSE="X +adobe-cff brotli bzip2 +cleartype-hinting debug fontforge harfbuzz +png static-libs utils"
 
 if [[ "${PV}" != 9999 ]] ; then
 	SRC_URI="mirror://sourceforge/freetype/${P/_/}.tar.xz
@@ -42,7 +42,6 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 "
-PDEPEND="infinality? ( media-libs/fontconfig-infinality )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.10.3-sizeof-types.patch # 459966
@@ -132,13 +131,7 @@ src_prepare() {
 	# Will be the new default for >=freetype-2.7.0
 	disable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  2"
 
-	if use infinality && use cleartype-hinting ; then
-		enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  ( 1 | 2 )"
-	elif use infinality ; then
-		enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  1"
-	elif use cleartype-hinting ; then
-		enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  2"
-	fi
+	use cleartype-hinting && enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  2"
 
 	# Can be disabled with FREETYPE_PROPERTIES="pcf:no-long-family-names=1"
 	# via environment (new since v2.8)
