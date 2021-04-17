@@ -32,6 +32,17 @@
 
 #--- END OF EXAMPLES ---
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2021-05-30)
+# Two years after the tracker was opened it is time to mask dev-qt/qtwebkit
+# for good. No commits to upstream repository for >6 months, latest available
+# tarball still "alpha" with warning about known unpatched vulnerabilities.
+# Bugs: #684580, #685750, #709858, #740416, #750899
+dev-qt/qtwebkit:5
+app-text/fb2edit
+mail-client/trojita
+<media-video/openshot-2.5.1_p20210228
+net-misc/teamviewer
+
 # Sam James <sam@gentoo.org> (2021-05-30)
 # GStreamer 1.18.x! Masked for testing.
 # This is a large suite of packages, so please
