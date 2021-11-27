@@ -72,6 +72,8 @@ RDEPEND="${COMMON_DEPEND}
 	>=kde-frameworks/kimageformats-${KFMIN}:5
 "
 
+PATCHES=( "${FILESDIR}/${P}-with_x11.patch" )
+
 src_prepare() {
 	ecm_src_prepare
 	if ! use mpris; then
@@ -87,7 +89,7 @@ src_configure() {
 		$(cmake_use_find_package raw KF5KDcraw)
 		-DGWENVIEW_SEMANTICINFO_BACKEND=$(usex semantic-desktop Baloo None)
 		$(cmake_use_find_package share KF5Purpose)
-		$(cmake_use_find_package X X11)
+		-DWITH_X11=$(usex X)
 	)
 	ecm_src_configure
 }
