@@ -80,10 +80,12 @@ BDEPEND="
 	test? ( >=kde-apps/akonadi-${PVCUT}:5[tools] )
 "
 
+PATCHES=( "${FILESDIR}/${P}-with_x11.patch" )
+
 src_configure() {
 	local mycmakeargs=(
 		$(cmake_use_find_package telemetry KUserFeedback)
-		$(cmake_use_find_package X X11)
+		-DWITH_X11=$(usex X)
 	)
 
 	ecm_src_configure

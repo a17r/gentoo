@@ -1,0 +1,35 @@
+From 339967533092e5e8e606bb093eb4e224350c2292 Mon Sep 17 00:00:00 2001
+From: Andreas Sturmlechner <asturm@gentoo.org>
+Date: Sun, 28 Nov 2021 15:18:00 +0100
+Subject: [PATCH] Add CMake option to build without X11
+
+Signed-off-by: Andreas Sturmlechner <asturm@gentoo.org>
+---
+ CMakeLists.txt | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2f285a395..fbfe8db23 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -123,10 +123,15 @@ find_package(KF5CalendarSupport ${CALENDARSUPPORT_LIB_VERSION} CONFIG REQUIRED)
+ find_package(KF5EventViews ${EVENTVIEW_LIB_VERSION} CONFIG REQUIRED)
+ 
+ if(NOT APPLE)
+-  find_package(X11)
++    option(WITH_X11 "Build with X11 integration" ON)
++    if (WITH_X11)
++        find_package(X11 REQUIRED)
++        set(KDEPIM_HAVE_X11 TRUE)
++    endif()
++else()
++    set(WITH_X11 OFF)
+ endif()
+ 
+-set(KDEPIM_HAVE_X11 ${X11_FOUND})
+ configure_file(config-korganizer.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-korganizer.h)
+ include_directories(${korganizer_SOURCE_DIR} ${korganizer_BINARY_DIR} ${korgac_SOURCE_DIR} ${korgac_BINARY_DIR})
+ configure_file(korganizer-version.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/korganizer-version.h @ONLY)
+-- 
+2.33.1
+
