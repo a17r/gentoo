@@ -6,14 +6,14 @@
 # Mikle Kolyada <zlogene@gentoo.org>
 # @AUTHOR:
 # Diego Pettenò <flameeyes@gentoo.org>
-# @SUPPORTED_EAPIS: 5 6 7 8
+# @SUPPORTED_EAPIS: 6 7 8
 # @BLURB: Handles pam related tasks
 # @DESCRIPTION:
 # This eclass contains functions to install pamd configuration files and
 # pam modules.
 
 case ${EAPI:-0} in
-	[5678]) ;;
+	[678]) ;;
 	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
 esac
 
