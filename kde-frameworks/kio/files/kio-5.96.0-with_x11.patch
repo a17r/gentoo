@@ -1,0 +1,70 @@
+From 17327efbdd244ab56b83cd772a6e436bf8091551 Mon Sep 17 00:00:00 2001
+From: Andreas Sturmlechner <asturm@gentoo.org>
+Date: Mon, 1 Aug 2022 22:10:02 +0200
+Subject: [PATCH] Drop obsolete X11 dependency, introduce WITH_X11 option
+ instead
+
+This will only determine whether to search for Qt5X11Extras and then
+set HAVE_X11 accordingly. This is a behavior change as previously it was
+silently disabled if X11 was not found.
+
+We want to be able to build without X11 support even if some of the used
+libraries may not work w/o X11 themselves yet or need to be built with
+X11 support for other reverse dependencies.
+
+HAVE_X11 already exists and is set automagically so far, but using
+-DCMAKE_DISABLE_FIND_PACKAGE_X11 will break if any dependencies list X11
+as required in their cmake config.
+
+Signed-off-by: Andreas Sturmlechner <asturm@gentoo.org>
+---
+ CMakeLists.txt                   | 17 ++++++++---------
+ src/ioslaves/http/CMakeLists.txt |  3 ---
+ 2 files changed, 8 insertions(+), 12 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a32fddc8..8e84158f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -118,16 +118,15 @@ set_package_properties(GSSAPI PROPERTIES DESCRIPTION "Allows KIO to make use of
+                       )
+ 
+ if (NOT APPLE AND NOT WIN32)
+-    find_package(X11)
+-endif()
+-
+-set(HAVE_X11 ${X11_FOUND})
+-if (HAVE_X11)
+-    if (QT_MAJOR_VERSION STREQUAL "5")
+-        find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED X11Extras)
+-    else()
+-        # qtx11extras_p.h is in Qt6Gui, which is implied by the find_package(QtWidgets) above
++    option(WITH_X11 "Build without X11 integration" ON)
++    if(WITH_X11)
++        if (QT_MAJOR_VERSION STREQUAL "5")
++            find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED X11Extras)
++        else()
++            # qtx11extras_p.h is in Qt6Gui, which is implied by the find_package(QtWidgets) above
++        endif()
+     endif()
++    set(HAVE_X11 ${WITH_X11})
+ endif()
+ 
+ find_package(ACL)
+diff --git a/src/ioslaves/http/CMakeLists.txt b/src/ioslaves/http/CMakeLists.txt
+index 4fbddb4a..689f63dd 100644
+--- a/src/ioslaves/http/CMakeLists.txt
++++ b/src/ioslaves/http/CMakeLists.txt
+@@ -3,9 +3,6 @@ include(ECMMarkNonGuiExecutable)
+ include(ConfigureChecks.cmake)
+ configure_file(config-kioslave-http.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kioslave-http.h )
+ 
+-find_package(X11)
+-set(HAVE_X11 ${X11_FOUND})
+-
+ if(GSSAPI_FOUND)
+     set(HAVE_LIBGSSAPI 1)
+     if(GSSAPI_FLAVOR STREQUAL "MIT")
+-- 
+2.35.1
+
