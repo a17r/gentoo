@@ -647,6 +647,45 @@ _tc-has-openmp() {
 	return ${ret}
 }
 
+# @FUNCTION: tc-check-minimum
+# @USAGE: <minimum GCC version> <minimum Clang version>
+# @DESCRIPTION:
+# Minimum version of active GCC or Clang to require.
+#
+# You should test for any necessary minimum version in pkg_pretend in order to
+# warn the user of required toolchain changes.  You must still check for it at
+# build-time, e.g.
+# @CODE
+# pkg_pretend() {
+#	[[ ${MERGE_TYPE} != binary ]] && tc-check-minimum
+# }
+#
+# pkg_setup() {
+#	[[ ${MERGE_TYPE} != binary ]] && tc-check-minimum
+# }
+# @CODE
+tc-check-minimum() {
+	local gcc_min=$1
+	local clang_min=$2
+	local cname cvers c
+
+	if tc-is-gcc; then
+		cname=GCC
+		cvers=$(gcc-version)
+	elif tc-is-clang; then
+		cname=Clang
+		cvers=$(clang-version)
+	fi
+
+	debug-print "Compiler version check for ${cname}"
+	debug-print "  Detected: ${cvers}"
+	debug-print "  Required: ${KDE_GCC_MINIMAL}"
+
+	ver_test ${cvers} -lt ${gcc_min} &&
+		die "Active compiler is too old for this package (found ${cvers})."
+	fi
+}
+
 # @FUNCTION: tc-check-openmp
 # @DESCRIPTION:
 # Test for OpenMP support with the current compiler and error out with
