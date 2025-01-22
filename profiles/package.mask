@@ -33,6 +33,10 @@
 
 #--- END OF EXAMPLES ---
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-01-xx)
+# Qt5 packages without any revdeps. [WIP]
+# dev-qt/qtsensors:5 # games-kids/gcompris-2.4
+
 # Andreas Sturmlechner <asturm@gentoo.org> (2025-01-23)
 # CVE-2025-23050, bug #948573; Removal on 2025-02-22.
 dev-qt/qtbluetooth:5
