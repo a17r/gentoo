@@ -7,15 +7,15 @@ ECM_HANDBOOK="optional"
 # TODO: ECMGenerateQDoc
 ECM_TEST="true"
 KFMIN=6.18.0
-QTMIN=6.9.1
+QTMIN=6.10.1
 inherit ecm fcaps plasma.kde.org toolchain-funcs xdg
 
 DESCRIPTION="Flexible, composited Window Manager for windowing systems on Linux"
-SRC_URI+=" https://dev.gentoo.org/~asturm/distfiles/${P}-patchset.tar.xz"
+SRC_URI+=" https://dev.gentoo.org/~asturm/distfiles/kde/${P}-patchset-1.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="6"
-KEYWORDS="amd64 arm64 ~loong ~ppc64 ~riscv ~x86"
+KEYWORDS="~amd64 ~arm64 ~loong ~ppc64 ~riscv ~x86"
 IUSE="accessibility gles2-only lock screencast +shortcuts systemd X"
 
 RESTRICT="test"
@@ -92,7 +92,6 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/hwdata
 	X? ( >=x11-base/xwayland-23.1.0[libei] )
 "
-RDEPEND+=" || ( >=dev-qt/qtbase-6.10:6[wayland] <dev-qt/qtwayland-6.10:6 )"
 DEPEND="${COMMON_DEPEND}
 	>=dev-libs/plasma-wayland-protocols-1.19.0
 	>=dev-libs/wayland-protocols-1.45
@@ -105,13 +104,12 @@ BDEPEND="
 	dev-util/wayland-scanner
 	>=kde-frameworks/kcmutils-${KFMIN}:6
 "
-BDEPEND+=" || ( >=dev-qt/qtbase-6.10:6[wayland] <dev-qt/qtwayland-6.10:6 )"
 
 # https://bugs.gentoo.org/941628
 # -m 0755 to avoid suid with USE="-filecaps"
 FILECAPS=( -m 0755 cap_sys_nice=ep usr/bin/kwin_wayland )
 
-PATCHES=( "${WORKDIR}/${P}-patchset" )
+PATCHES=( "${WORKDIR}/${P}-patchset-1" )
 
 pkg_pretend() {
 	[[ ${MERGE_TYPE} != binary ]] && tc-check-min_ver gcc 14
