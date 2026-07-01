@@ -6,7 +6,7 @@
 # qt@gentoo.org
 # @AUTHOR:
 # Davide Pesavento <pesa@gentoo.org>
-# @SUPPORTED_EAPIS: 8
+# @SUPPORTED_EAPIS: 8 9
 # @PROVIDES: qt-utils
 # @BLURB: Common functions for qmake-based packages.
 # @DESCRIPTION:
@@ -18,16 +18,17 @@
 # This eclass does not set any metadata variables nor export any phase
 # functions. It can be inherited safely.
 
-case ${EAPI} in
-	8) ;;
-	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
-esac
-
 if [[ -z ${_QMAKE_UTILS_ECLASS} ]]; then
 _QMAKE_UTILS_ECLASS=1
 
+case ${EAPI} in
+	8|9) ;;
+	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
+esac
+
 inherit qt-utils toolchain-funcs
 
+if [[ ${EAPI} == 8 ]]; then
 # @FUNCTION: qt5_get_bindir
 # @DESCRIPTION:
 # Echoes the directory where Qt5 binaries are installed.
@@ -122,6 +123,7 @@ eqmake5() {
 		die "eqmake5 failed"
 	fi
 }
+fi
 
 # @FUNCTION: qt6_get_qmake_args
 # @DESCRIPTION:
