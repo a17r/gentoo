@@ -3,6 +3,7 @@
 
 EAPI=8
 
+QTMIN=6.11.2
 inherit cmake kde.org out-of-source-utils qt-utils
 
 DESCRIPTION="Qt Cryptographic Architecture (QCA)"
@@ -17,8 +18,8 @@ IUSE="botan debug doc examples gcrypt gpg logger nss pkcs11 sasl softstore +ssl 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	dev-qt/qt5compat:6
-	dev-qt/qtbase:6
+	>=dev-qt/qt5compat-${QTMIN}:6
+	>=dev-qt/qtbase-${QTMIN}:6
 	botan? ( dev-libs/botan:3= )
 	gcrypt? ( dev-libs/libgcrypt:= )
 	gpg? ( app-crypt/gnupg )
@@ -31,7 +32,7 @@ RDEPEND="
 	ssl? ( >=dev-libs/openssl-1.1:= )
 "
 DEPEND="${RDEPEND}
-	test? ( dev-qt/qtbase:6[network] )
+	test? ( >=dev-qt/qtbase-${QTMIN}:6[network] )
 "
 BDEPEND="
 	virtual/pkgconfig
