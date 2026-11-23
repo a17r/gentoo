@@ -1,0 +1,22 @@
+Downstream patch (replacing sed)
+
+diff --git a/doc/CMakeLists.txt b/doc/CMakeLists.txt
+index b510d8c..aef23ea 100644
+--- a/doc/CMakeLists.txt
++++ b/doc/CMakeLists.txt
+@@ -33,9 +33,9 @@ if( DEFINED CMAKE_INSTALL_DOCDIR )
+         DESTINATION ${CMAKE_INSTALL_DOCDIR}
+     )
+     install(FILES
+-        ${CMAKE_CURRENT_SOURCE_DIR}/AssimpDoc_Html/AnimationOverview.png
+-        ${CMAKE_CURRENT_SOURCE_DIR}/AssimpDoc_Html/AnimationOverview.svg
+-        ${CMAKE_CURRENT_SOURCE_DIR}/AssimpDoc_Html/dragonsplash.png
++        ${CMAKE_CURRENT_SOURCE_DIR}/architecture/AnimationOverview.png
++        ${CMAKE_CURRENT_SOURCE_DIR}/architecture/AnimationOverview.svg
++        ${CMAKE_CURRENT_SOURCE_DIR}/images/dragonsplash.png
+         DESTINATION ${CMAKE_INSTALL_DOCDIR}/${HTML_OUTPUT}
+     )
+ endif()
+-- 
+2.56.1
+

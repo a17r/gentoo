@@ -1,0 +1,64 @@
+Downstream patch (replacing sed)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index df64ade..267e708 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -414,8 +414,8 @@ IF (ASSIMP_COVERALLS)
+   MESSAGE(STATUS "Coveralls enabled")
+ 
+   INCLUDE(Coveralls)
+-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
++  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
++  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+ ENDIF()
+ 
+ IF (ASSIMP_ASAN)
+diff --git a/cmake-modules/Coveralls.cmake b/cmake-modules/Coveralls.cmake
+index 5343f15..050af46 100644
+--- a/cmake-modules/Coveralls.cmake
++++ b/cmake-modules/Coveralls.cmake
+@@ -120,7 +120,7 @@ macro(coveralls_turn_on_coverage)
+ 		message(FATAL_ERROR "Coveralls: Code coverage results with an optimised (non-Debug) build may be misleading! Add -DCMAKE_BUILD_TYPE=Debug")
+ 	endif()
+ 
+-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
++	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
++	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+ endmacro()
+ 
+diff --git a/contrib/android-cmake/android.toolchain.cmake b/contrib/android-cmake/android.toolchain.cmake
+index c2b8a07..8435e13 100644
+--- a/contrib/android-cmake/android.toolchain.cmake
++++ b/contrib/android-cmake/android.toolchain.cmake
+@@ -1386,8 +1386,8 @@ endif()
+ # cache flags
+ set( CMAKE_CXX_FLAGS           ""                        CACHE STRING "c++ flags" )
+ set( CMAKE_C_FLAGS             ""                        CACHE STRING "c flags" )
+-set( CMAKE_CXX_FLAGS_RELEASE   "-O3 -DNDEBUG"            CACHE STRING "c++ Release flags" )
+-set( CMAKE_C_FLAGS_RELEASE     "-O3 -DNDEBUG"            CACHE STRING "c Release flags" )
++set( CMAKE_CXX_FLAGS_RELEASE   "-DNDEBUG"                CACHE STRING "c++ Release flags" )
++set( CMAKE_C_FLAGS_RELEASE     "-DNDEBUG"                CACHE STRING "c Release flags" )
+ set( CMAKE_CXX_FLAGS_DEBUG     "-O0 -g -DDEBUG -D_DEBUG" CACHE STRING "c++ Debug flags" )
+ set( CMAKE_C_FLAGS_DEBUG       "-O0 -g -DDEBUG -D_DEBUG" CACHE STRING "c Debug flags" )
+ set( CMAKE_SHARED_LINKER_FLAGS ""                        CACHE STRING "shared linker flags" )
+diff --git a/contrib/openddlparser/CMakeLists.txt b/contrib/openddlparser/CMakeLists.txt
+index 28f3d59..39d04b5 100644
+--- a/contrib/openddlparser/CMakeLists.txt
++++ b/contrib/openddlparser/CMakeLists.txt
+@@ -63,8 +63,8 @@ endif()
+ 
+ if (COVERALLS)
+     include(Coveralls)
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+     message("Enable coveralls.")
+ endif()
+ 
+-- 
+2.56.1
+
